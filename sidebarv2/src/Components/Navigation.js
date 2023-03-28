@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { useTheme, ThemeProvider, createTheme,styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -18,8 +18,15 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import Grid from '@mui/material/Grid';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import Link from '@mui/material/Link';
 import './//Navigation.css'
+
+import SimpleMediaQuery from './Preferences';
+
+
+const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
 
 const drawerWidth = 240;
@@ -101,6 +108,7 @@ const Title = Pages[0];
 
 function Navigation() {
     const theme = useTheme();
+    const colorMode = React.useContext(ColorModeContext);
     const [open, setOpen] = React.useState(false);
   
     const handleDrawerOpen = () => {
@@ -111,8 +119,10 @@ function Navigation() {
       setOpen(false);
     };
   
+    //changeTheme ? "darkMode" : "ligtMode";
+
     return (
-      <Box className='AppBar' sx={{ display: 'flex' }} >
+      <Box  >
         <AppBar className='AppBar'  position="fixed" open={open} >
           <Toolbar className='AppBar'>
             <IconButton 
@@ -140,9 +150,12 @@ function Navigation() {
             </IconButton>
           </DrawerHeader>
           <Divider className='AppBar' />
+
           <List  className='AppBar'>
             {Pages.map((text, index) => (
-              <ListItem   className='AppBar'  key={text} disablePadding sx={{ display: 'block',height:1/6, backgroundColor:'#051622'}}>
+                <Link href={text} key={index}>
+              <ListItem   className='AppBar'  key={text} disablePadding sx={{ display: 'block',height:1/8, backgroundColor:'#051622'}}>
+
                 <ListItemButton
                   sx={{
                     
@@ -166,15 +179,43 @@ function Navigation() {
                   </ListItemIcon>
                   <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
+
               </ListItem>
+              </Link>
             ))}
+            <ListItem onClick={colorMode.toggleColorMode}  className='AppBar' key="ad" disablePadding sx={{ display: 'block',height:1/8, backgroundColor:'#051622'}}>
+
+                <ListItemButton                 sx={{
+                    
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5,
+                    height:1,
+                    
+                  }}>
+<ListItemIcon 
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                      color: '#1BA098',
+                      
+                    }}
+                  >
+                  </ListItemIcon>
+<ListItemText  color="inherit" sx={{ ml: 1 , opacity: open ? 1 : 0 }}>
+{theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+</ListItemText>
+                </ListItemButton>
+
+            </ListItem>
           </List>
-        </Drawer >
-          <Grid container spacing={3}>
-  
-          </Grid>
+          <SimpleMediaQuery/>
+        </Drawer >                    
+
       </Box>
     );
   }
 
   export default Navigation;
+
+  
