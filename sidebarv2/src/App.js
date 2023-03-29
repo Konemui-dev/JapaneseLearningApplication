@@ -4,7 +4,7 @@ import Navigation from './Components/Navigation';
 import JLPTPage from './Pages/JLPTPage';
 import {Routes,Route} from 'react-router-dom';
 import HomePage from './Pages/HomePage';
-import { Box } from '@mui/material';
+import { Box, createMuiTheme } from '@mui/material';
 import Scripts from './Pages/Scripts';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -24,7 +24,7 @@ const darkTheme = createTheme({
  * 
  */
 function App() {
-
+  const [currentTheme, setCurrentTheme] = React.useState(lightTheme);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   const theme = React.useMemo(
@@ -37,8 +37,17 @@ function App() {
     [prefersDarkMode],
   );
 
-
-  
+const lightTheme = createMuiTheme({
+  palette:{type:'light'},
+});
+const darkTheme = createMuiTheme({
+  palette:{
+    type:'dark',
+  },
+});
+const toggleTheme = () =>{
+  setCurrentTheme(currentTheme === lightTheme ? darkTheme : lightTheme);
+}
   return (
     <Box sx={{ display: 'flex' }} >
 
