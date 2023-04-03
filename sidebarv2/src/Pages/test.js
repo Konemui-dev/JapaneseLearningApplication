@@ -1,17 +1,24 @@
 import { Box, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
-
+import LRUCache from "lru-cache";
 
 // App.js
 
 import React, { useEffect, useState } from 'react';
 
 function Test() {
-  const [searchTerm, setSearchTerm] = useState('today');
-    const [test, setData] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [Kanji, setKanji] = useState('今');
+
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
+
+  const handleKanjiInputChange = (event) =>{
+    setKanji(event.target.value);
+  }
+
+
   const headers = new Headers();
   headers.append('User-Agent', 'MyApp/1.0');
 
@@ -23,7 +30,7 @@ function Test() {
   };
 
 
-  const searchingTest = () =>{
+  const searchingTest = () =>{ //works change the naming scheme though
     fetch(`http://localhost:3001/searchForPhrase/${searchTerm}`)
     .then(response => {
       if (!response.ok) {
@@ -33,81 +40,63 @@ function Test() {
     })
     .then((json)=>{
         console.log(json.data);
-        console.log("test 2");
-        console.log(json.data[0].slug);
-        console.log(json.data[0].japanese[0].reading);
         document.getElementById("test").innerText =json.data[0].slug
         document.getElementById("test2").innerText = json.data[0].japanese[0].reading 
         document.getElementById("test3").innerText = json.data[0].senses[0].english_definitions[0]
-        //setData(json.data);
     })
     .catch(error => console.log('Error:', error));
   
   }
 
 
-// useEffect( () =>
-// {
-//   fetch(`https://cors-anywhere.herokuapp.com/https://jisho.org/api/v1/search/words?keyword=${searchTerm}`)
-//   .then(response => {
-//     if (!response.ok) {
-//       throw new Error('Network response was not ok');
-//     }
-//     return response.json();
-//   })
-//   .then((json)=>{
-//       console.log(json.data);
-//       console.log("test 2");
-//       console.log(json.data[0].slug);
-//       console.log(json.data[0].japanese[0].reading);
-//       // document.getElementById("test").innerText =json.data[0].slug
-//       // document.getElementById("test2").innerText = json.data[0].japanese[0].reading 
-//       // document.getElementById("test3").innerText = json.data[0].senses[0].english_definitions[0]
-//       setData(json.data);
-//   })
+  const searchingForPhrase = () =>{
+    fetch(`http://localhost:3001/searchForPhrase/${searchTerm}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then((json)=>{
+        console.log(json.data);
+        document.getElementById("test").innerText =json.data[0].slug
+        document.getElementById("test2").innerText = json.data[0].japanese[0].reading 
+        document.getElementById("test3").innerText = json.data[0].senses[0].english_definitions[0]
+    })
+    .catch(error => console.log('Error:', error));
+  
+  }
 
-// },[searchTerm])
-// if(setData ===null)
-// {
-//   return null;
-// }
 
-// const searchingTest2 = () =>{
-//     fetch(`http://localhost:3001/jisho/${searchTerm}`,{headers})
-//     .then(response => {
-//         if (!response.ok) {
-//           throw new Error('Network response was not ok');
-//         }
-//         return response.json();
-//     })
-//     .then((json)=>{
-//         console.log(json.data);
-//     })
-//      .catch(error => console.error(error));
-// }
-
-// const testreq = <div>
-//   {
-//     test.map((value,key) => <div key={key}>
-//       <Typography>
-//         {value.japanese}
-//       </Typography>
-
-//     </div>)
-//   }
-// </div>
+  const searchingKanji = () =>{ //works has a different data structure though
+    fetch(`http://localhost:3001/searchForKanji/${Kanji}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then((json)=>{
+        console.log(json);
+        document.getElementById("testKanji").innerText = json.query
+    })
+    .catch(error => console.log('Error:', error));
+  
+  }
 
   return (
     <div>
       <input type="text" value={searchTerm} onChange={handleInputChange} />
       <button onClick={searchingTest}>Search</button>
+      <input type="text" value={Kanji} onChange={handleKanjiInputChange}/>
+      <button onClick={searchingKanji}>search Kanji</button>
       <div>
 
         <ruby >
         <Typography style={{fontSize: '30px'}} className=' 1.2rem' id="test"></Typography> <rp>(</rp><rt style={{fontSize: '15px'}} id="test2"></rt><rp>)</rp>
         </ruby>
         <Typography style={{fontSize: '30px'}} id="test3"></Typography>
-
+        <Typography style={{fontSize: '30px'}} id="testKanji"></Typography>
       </div>
     </div>
   );

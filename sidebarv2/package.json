@@ -16,6 +16,7 @@
     "@testing-library/user-event": "^13.5.0",
     "cors-anywhere": "^0.4.4",
     "http-proxy-middleware": "^2.0.6",
+    "lru-cache": "^8.0.4",
     "path": "^0.12.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
