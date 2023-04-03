@@ -24,30 +24,7 @@ const darkTheme = createTheme({
  * 
  */
 function App() {
-  const [currentTheme, setCurrentTheme] = React.useState(lightTheme);
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
-        },
-      }),
-    [prefersDarkMode],
-  );
-
-const lightTheme = createMuiTheme({
-  palette:{type:'light'},
-});
-const darkTheme = createMuiTheme({
-  palette:{
-    type:'dark',
-  },
-});
-const toggleTheme = () =>{
-  setCurrentTheme(currentTheme === lightTheme ? darkTheme : lightTheme);
-}
   return (
     <Box sx={{ display: 'flex' }} >
 
