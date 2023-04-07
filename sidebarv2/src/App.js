@@ -4,17 +4,9 @@ import Navigation from './Components/Navigation';
 import JLPTPage from './Pages/JLPTPage';
 import {Routes,Route} from 'react-router-dom';
 import HomePage from './Pages/HomePage';
-import { Box, createMuiTheme } from '@mui/material';
+import { Box, } from '@mui/material';
 import Scripts from './Pages/Scripts';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import useMediaQuery from '@mui/material/useMediaQuery';
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-});
-
+import SearchPage from './Pages/SearchPage';
 
 
 
@@ -34,6 +26,7 @@ function App() {
         <Route path="/Home" element={<HomePage/>}/>
         <Route path="/JLPT" element={<JLPTPage/>}/>
         <Route path="/Scripts" element={<Scripts/>}/>
+        <Route path="/Search" element={<SearchPage/>}/>
       </Routes>
 
       </Box>
