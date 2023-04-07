@@ -85,14 +85,24 @@ function Test() {
 
   //setup card to Grow in MUI
   const searchForPhrase_map = (
-    <Grid  spacing={2} container justifyContent="center">
+    <Grid spacing={{ xs: 2, md: 3 }} container justifyContent="center">
       {searchTermReturn.map((value, key) => (
-        <Grid key={key} item xs={4} >
-          <Card sx={{ minWidth: 500 , minHeight: 500, maxHeight: 500, background: '#051622', border: 1, borderColor: '#1BA098'}}>
-            <CardContent sx={{color: '#1BA098'}}>
+        <Grid key={key} item xs={4}>
+          <Card
+            sx={{
+              minWidth: 500,
+              minHeight: 500,
+              height: 500,
+              background: "#051622",
+              border: 1,
+              borderColor: "#1BA098",
+              overflow: "auto",
+            }}
+          >
+            <CardContent sx={{ color: "#1BA098" }}>
               <Typography variant="h4">{value.slug}</Typography>
               <Typography gutterBottom variant="h6" component="div">
-                {jlptLevel(value.jlpt)}
+                {jlptLevel(value.jlpt + " ")}
               </Typography>
               <Typography gutterBottom variant="h6" component="div">
                 English readings:
@@ -101,7 +111,7 @@ function Test() {
               {value.senses.map((value, key) => (
                 <div key={key}>
                   <br></br>
-                  <div >
+                  <div>
                     <u>{value.parts_of_speech + ""} </u>
                     <div></div>
 
@@ -117,14 +127,14 @@ function Test() {
                 Japanese readings:
               </Typography>
               {value.japanese.map((value, key) => (
-                <div key={key}>
+                <Typography key={key}>
                   {" "}
                   <ruby style={{ fontSize: "25px" }}>
                     {value.word} <rp>(</rp>
                     <rt> {value.reading}</rt>
                     <rp>)</rp>
                   </ruby>
-                </div>
+                </Typography>
               ))}
             </CardContent>
           </Card>
@@ -192,20 +202,22 @@ function Test() {
   };
 
   /**
-   * change the textfield to conditionally render like in web sem1
-   *
+   * Task 1 : change the textfield to conditionally render like in web sem1
+   * Task 2 : change Buttons to render same way
+   * Task 3 : have other search formats correctly render
+   * Task 4 : display results in a grid again like the other method (can probably reuse the same grid and have them output different times)
    */
+
   return (
     <div>
       <TextField
-      
         helperText={"Input a singular kanji into this search box"}
         variant="outlined"
         label="input kanji"
         value={Kanji}
         onChange={handleKanjiInputChange}
       />
-      <button onClick={searchingKanji}>search Kanji</button>
+      <Button variant="outlined" onClick={searchingKanji}>search Kanji</Button>
 
       <TextField
         variant="outlined"
@@ -213,29 +225,28 @@ function Test() {
         value={searchExamples}
         onChange={handleSearchExampleChange}
       />
-      <button onClick={searchingExamples}>search Examples</button>
+      <Button variant="outlined" onClick={searchingExamples}>search Examples</Button>
       <div>
-        <p>testarea</p>
+        {/** grid layout for returned search */}
         <Grid sx={{ flexGrow: 1 }} container spacing={1}>
-        <Grid container justifyContent="center">
-              <TextField 
-                helperText={"Input an english word into this search box"}
-                variant="outlined"
-                label="input word"
-                value={searchTerm}
-                onChange={handleInputChange} 
- 
-              ></TextField>
-              <Button variant="outlined" onClick={searchingForPhraseTest}>
-                Search
-              </Button>
-            </Grid>
+          <Grid container justifyContent="center">
+            <TextField
+              helperText={"Input an english word into this search box"}
+              variant="outlined"
+              label="input word"
+              value={searchTerm}
+              onChange={handleInputChange}
+            ></TextField>
+            <Button variant="outlined" onClick={searchingForPhraseTest}>
+              Search
+            </Button>
+          </Grid>
           <Grid item xs={12} md={12} columns={{ xs: 4, sm: 8, md: 12 }}>
             {searchForPhrase_map}
           </Grid>
         </Grid>
 
-        <p>testarea</p>
+        {/** grid layout for returned search */}
 
         <ruby>
           <Typography

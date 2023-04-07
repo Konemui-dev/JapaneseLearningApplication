@@ -7,7 +7,7 @@ import HomePage from './Pages/HomePage';
 import { Box, } from '@mui/material';
 import Scripts from './Pages/Scripts';
 import SearchPage from './Pages/SearchPage';
-
+import './Pages/test.css';
 
 
 
