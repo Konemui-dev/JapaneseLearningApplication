@@ -27,6 +27,7 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Link from "@mui/material/Link";
 import ".///Navigation.css";
+import { useState } from "react";
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
@@ -109,7 +110,7 @@ const Pages = [
   "Resources",
   "Games",
 ];
-const Title = Pages[0];
+const Title = "t";
 
 function Navigation() {
   const theme = useTheme();
@@ -143,7 +144,7 @@ function Navigation() {
             <MenuIcon className="AppBar" />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            {Title}
+            Japanese Study site
           </Typography>
         </Toolbar>
       </AppBar>
@@ -159,12 +160,13 @@ function Navigation() {
         </DrawerHeader>
         <Divider className="AppBar" />
 
-        <List className="AppBar">
+        <List className="AppBar" >
           {Pages.map((text, index) => (
-            <Link href={text} key={index}>
-              <ListItem
+            <Link href={text} key={index} >
+              <ListItem 
                 className="AppBar"
                 key={text}
+                
                 disablePadding
                 sx={{
                   display: "block",
@@ -172,7 +174,7 @@ function Navigation() {
                   backgroundColor: "#051622",
                 }}
               >
-                <ListItemButton
+                <ListItemButton 
                   sx={{
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
