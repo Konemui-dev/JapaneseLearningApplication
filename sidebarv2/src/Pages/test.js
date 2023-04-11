@@ -171,7 +171,16 @@ function Test() {
       .then((json) => {
         setLoading(false);
         console.log(json);
-        setKanjiReturn([json]);
+        if(json.found == false)
+        {
+          console.error("this search query cannot be completed")
+          
+        }
+        else
+        {
+          setKanjiReturn([json]);
+        }
+
         handleChange();
       })
       .catch((error) => {
@@ -197,7 +206,7 @@ function Test() {
               sx={{
                 minWidth: 250,
                 minHeight: 150,
-                height: 500,
+                height: 800,
                 background: "#051622",
                 border: 1,
                 borderColor: "#1BA098",
@@ -209,6 +218,8 @@ function Test() {
               <Typography gutterBottom variant="h3">
                 Search Query: {value.query}
               </Typography>
+              <Typography variant="h4"> stroke order</Typography>
+              <CardMedia component="img"  sx={{display:"initial" ,float:"center",padding:2, width: 200, height: 200}} src={value.strokeOrderGifUri} alt="gif couldnt be loaded"/>
               <Typography  variant="h5">
                 kunyomi readings:
               </Typography>
@@ -257,7 +268,7 @@ function Test() {
   };
 
   const liftedValue = (value) => {
-    if (value != "") {
+    if (value !== "") {
       return value;
     } else {
       return "no conversion";
