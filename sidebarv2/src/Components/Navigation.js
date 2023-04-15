@@ -127,7 +127,7 @@ function Navigation() {
 
   return (
     <Box>
-      <AppBar className="AppBar" position="absolute" open={open}>
+      <AppBar className="AppBar" position="fixed" open={open}>
         <Toolbar className="AppBar">
           <IconButton
             color="inherit"

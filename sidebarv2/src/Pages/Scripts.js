@@ -72,8 +72,9 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
+  bgcolor: "#051622",
+  border: "1px solid #1BA098",
+
   boxShadow: 24,
   p: 4,
 };
@@ -90,11 +91,10 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 function Scripts() {
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedValueDetails, setSelectedValueDetails] = useState(null);
-  const [selectedValueAudio, setSelectedValueAudio] = useState(null); //stretch goal.
+  const [selectedAudioFile, setSelectedAudioFile] = useState(null);
   const [selectedVlaueGIF, setSelectedValueGIF] = useState(null); //stretch goal.
 
-  //Language Scripts
-
+  //Hiragana Scripts
   const aHiragana = { character: "あ", english: "a", audio: soundA };
   const iHiragana = { character: "い", english: "i", audio: soundI };
   const uHiragana = { character: "う", english: "u", audio: soundU };
@@ -404,6 +404,7 @@ function Scripts() {
               onClick={() => {
                 setSelectedValue(value.character);
                 setSelectedValueDetails(value.english);
+                setSelectedAudioFile(value.audio);
               }}
               value={value.character}
             >
@@ -427,6 +428,7 @@ function Scripts() {
               onClick={() => {
                 setSelectedValue(value.character);
                 setSelectedValueDetails(value.english);
+                setSelectedAudioFile(value.audio);
               }}
               value={value.character}
             >
@@ -438,9 +440,9 @@ function Scripts() {
     </div>
   );
 
-  let test = (e) => {
-    let audio = new Audio();
-    audio.play();
+  const audioBtn = async () => {
+    const audio = new Audio(selectedAudioFile);
+    audio.play()
   };
 
   return (
@@ -453,7 +455,7 @@ function Scripts() {
       <Typography>katakana buttons</Typography>
       {KatakanaBtnMap}
 
-      <Modal
+      <Modal sx={{borderColor:" #1BA098", opacity: 1}}
         disableEnforceFocus
         open={selectedValue !== null && selectedValue !== "　"}
         closeAfterTransition
@@ -469,7 +471,7 @@ function Scripts() {
             <Typography id="modal-modal-title" variant="h6" sx={{ mt: 2 }}>
               {selectedValue}
 
-              <Button onClick={test}>Listen</Button>
+              <Button onClick={() => {audioBtn()}}>Listen</Button>
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               {selectedValueDetails}
