@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import Test from './test';
+import SearchQueries from './SearchQueries';
 import { styled } from '@mui/material/styles';
 import * as React from 'react';
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -14,7 +14,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 function SearchPage(){
     return(
     <Grid component="main" sx={{flexGrow: 1, p:3}}>        <DrawerHeader /> 
-    <Test/>
+    <SearchQueries/>
   </Grid>
     );
 }

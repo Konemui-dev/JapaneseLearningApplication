@@ -82,9 +82,7 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
-// sx={{  color: '#1BA098',  backgroundColor: '#1BA098',
-//     borderBlockColor:'#1BA098',
-//     border:0,}}
+
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -129,7 +127,7 @@ function Navigation() {
 
   return (
     <Box>
-      <AppBar className="AppBar" position="fixed" open={open}>
+      <AppBar className="AppBar" position="absolute" open={open}>
         <Toolbar className="AppBar">
           <IconButton
             color="inherit"

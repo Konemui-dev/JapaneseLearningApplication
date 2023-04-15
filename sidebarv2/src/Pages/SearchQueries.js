@@ -2,28 +2,23 @@ import {
   TextField,
   Typography,
   Card,
-  CardHeader,
   CardMedia,
   CardContent,
-  Autocomplete,
   Grid,
   Button,
   CircularProgress,
   Grow,
   ButtonGroup,
+  Divider,
 } from "@mui/material";
-import LRUCache from "lru-cache";
+import LRUCache from "lru-cache"; //stretch goal.
+import React, {  useState } from "react";
 
-// App.js
-
-import React, { useEffect, useState } from "react";
-
-function Test() {
+function SearchQueries() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [Kanji, setKanji] = useState("今"); //今
+  const [Kanji, setKanji] = useState(""); 
   const [searchExamples, setSearchExamples] = useState("");
   const [loading, setLoading] = useState(false);
-  //set return info
   const [searchTermReturn, setSearchTermReturn] = useState([]);
   const [exampleReturn, setExampleReturn] = useState([]);
   const [kanjiReturn, setKanjiReturn] = useState([]);
@@ -52,12 +47,7 @@ function Test() {
   if (searchTerm.length <= 1) {
   }
 
-  /**
-   * testing
-   */
-
   const searchingForWord = () => {
-    //works
     fetch(`http://localhost:3001/searchForPhrase/${searchTerm}`)
       .then((response) => {
         if (!response.ok) {
@@ -113,8 +103,9 @@ function Test() {
               <CardContent sx={{ color: "#1BA098" }}>
                 <Typography variant="h4">{value.slug}</Typography>
                 <Typography gutterBottom variant="h6" component="div">
-                  {jlptLevel(value.jlpt + " ")}
+                  {jlptLevel(value.jlpt + "")}
                 </Typography>
+                <Divider sx={{ borderColor: "#1BA098" }} variant="middle" />
                 <Typography gutterBottom variant="h6" component="div">
                   English readings:
                 </Typography>
@@ -134,12 +125,12 @@ function Test() {
                     </div>
                   </div>
                 ))}
+                <Divider sx={{ borderColor: "#1BA098" }} variant="middle" />
                 <Typography gutterBottom variant="h6" component="div">
                   Japanese readings:
                 </Typography>
                 {value.japanese.map((value, key) => (
                   <Typography key={key}>
-                    {" "}
                     <ruby style={{ fontSize: "25px" }}>
                       {value.word} <rp>(</rp>
                       <rt> {value.reading} </rt>
@@ -155,12 +146,7 @@ function Test() {
     </Grid>
   );
 
-  /**
-   * testing2
-   */
-
   const searchingKanji = () => {
-    //works has a different data structure though
     fetch(`http://localhost:3001/searchForKanji/${Kanji}`)
       .then((response) => {
         if (!response.ok) {
@@ -171,13 +157,9 @@ function Test() {
       .then((json) => {
         setLoading(false);
         console.log(json);
-        if(json.found == false)
-        {
-          console.error("this search query cannot be completed")
-          
-        }
-        else
-        {
+        if (json.found == false) {
+          console.error("this search query cannot be completed");
+        } else {
           setKanjiReturn([json]);
         }
 
@@ -218,14 +200,32 @@ function Test() {
               <Typography gutterBottom variant="h3">
                 Search Query: {value.query}
               </Typography>
-              <Typography variant="h4"> stroke order</Typography>
-              <CardMedia component="img"  sx={{display:"initial" ,float:"center",padding:2, width: 200, height: 200}} src={value.strokeOrderGifUri} alt="gif couldnt be loaded"/>
-              <Typography  variant="h5">
-                kunyomi readings:
+              <Typography gutterBottom variant="h4">
+                JLPT level {value.jlptLevel ? value.jlptLevel : "Not in JLPT"}
               </Typography>
+              <Typography variant="h4"> stroke order</Typography>
+              <CardMedia
+                component="img"
+                sx={{
+                  display: "initial",
+                  float: "center",
+                  padding: 2,
+                  width: 200,
+                  height: 200,
+                }}
+                src={value.strokeOrderGifUri}
+                alt="gif couldnt be loaded"
+              />
+              <Typography>Stroke Count: {value.strokeCount}</Typography>
+              <Typography gutterBottom variant="h5">
+                Kanji Meaning
+              </Typography>
+              <Typography gutterBottom>{value.meaning}</Typography>
+              <Typography variant="h5">kunyomi readings:</Typography>
               {value.kunyomi.map((value, key) => (
                 <div key={key}>
                   <Typography>{value}</Typography>
+                  <Divider sx={{ borderColor: "#1BA098" }} variant="middle" />
                 </div>
               ))}
               <Typography gutterBottom variant="h5">
@@ -239,10 +239,49 @@ function Test() {
                     <rt> {value.reading} </rt>
                     <rp>)</rp>
                   </ruby>
-
                   <Typography gutterBottom>{value.meaning}</Typography>
                 </div>
               ))}
+              <Divider sx={{ borderColor: "#1BA098" }} variant="middle" />
+              <Typography gutterBottom variant="h5">
+                onyomi
+              </Typography>
+              {value.onyomi.map((value, key) => (
+                <div key={key}>
+                  <Typography gutterBottom>{value}</Typography>
+                </div>
+              ))}
+              <Divider sx={{ borderColor: "#1BA098" }} variant="middle" />
+              <Typography gutterBottom variant="h5">
+                Onyomi Examples
+              </Typography>
+              {value.onyomiExamples.map((value, key) => (
+                <div key={key}>
+                  <Typography gutterBottom>
+                    {value.example}, {value.meaning}, {value.reading}
+                  </Typography>
+                </div>
+              ))}
+              <Divider sx={{ borderColor: "#1BA098" }} variant="middle" />
+              <Typography gutterBottom variant="h5">
+                Parts of Kanji
+              </Typography>
+              {value.parts.map((value, key) => (
+                <div key={key}>
+                  <Typography>{value}</Typography>
+                </div>
+              ))}
+              <Divider sx={{ borderColor: "#1BA098" }} variant="middle" />
+              <Typography gutterBottom variant="h5">
+                radicals
+              </Typography>
+              {value.radical.symbol}
+              {value.radical.forms.map((value, key) => (
+                <div key={key}>
+                  <Typography>{value}</Typography>
+                </div>
+              ))}
+              <Typography>{value.radical.meaning}</Typography>
             </Card>
           ))}
         </Grid>
@@ -303,10 +342,14 @@ function Test() {
               }}
             >
               <CardContent sx={{ color: "#1BA098" }}>
-                <Typography variant="h5">english sentence examples</Typography>
+                <Typography gutterBottom variant="h5">
+                  english sentence examples
+                </Typography>
+
                 <Typography gutterBottom component="div">
                   {value.english}
                 </Typography>
+                <Divider sx={{ borderColor: "#1BA098" }} variant="middle" />
                 <Typography gutterBottom variant="h5" component="div">
                   Japanese sentence
                 </Typography>
@@ -314,10 +357,12 @@ function Test() {
                   kanji: <br></br>
                   {value.kanji}
                 </Typography>
+                <Divider sx={{ borderColor: "#1BA098" }} variant="middle" />
                 <Typography gutterBottom component="div">
                   kana: <br></br>
                   {value.kana}
                 </Typography>
+                <Divider sx={{ borderColor: "#1BA098" }} variant="middle" />
                 <Typography gutterBottom component="div" variant="h5">
                   pieces of sentences
                 </Typography>
@@ -349,8 +394,8 @@ function Test() {
   /**
    * Task 1 : change the textfield to conditionally render like in web sem1 --Done
    * Task 2 : change Buttons to render same way -- Done
-   * Task 3 : have other search formats correctly render
-   * Task 4 : display results in a grid again like the other method (can probably reuse the same grid and have them output different times)
+   * Task 3 : have other search formats correctly render --Done
+   * Task 4 : display results in a grid again like the other method (can probably reuse the same grid and have them output different times) -- Done
    * Task 5 : loading -- Done
    * Task 6 : added loading effect -- Done
    * Task 7 : added resizing on page size difference -- Done
@@ -382,14 +427,12 @@ function Test() {
   return (
     <div>
       <div>
-        {/** grid layout for returned search */}
         <Grid
           sx={{ flexGrow: 1 }}
           container
           spacing={1}
           justifyContent="center"
         >
-          {/**button group options */}
           <ButtonGroup
             size="small"
             sx={{ marginBottom: "2%", marginTop: "2%" }}
@@ -440,7 +483,6 @@ function Test() {
                 </Button>
               </Grid>
             )}
-
             {/**button 3 */}
             {SearchExamplesBtn && (
               <Grid container justifyContent="center">
@@ -472,31 +514,12 @@ function Test() {
             {/**coditional render of response Cards */}
             {SearchExamplesBtn && searchForExamples_map}
             {SearchWordBtn && searchForWord_map}
-            {/**temp v */}
             {SearchKanjiBtn && searchForKanji_map}
           </Grid>
         </Grid>
-
-        {/** grid layout for returned search */}
-
-        <ruby>
-          <Typography
-            style={{ fontSize: "30px" }}
-            className=" 1.2rem"
-            id="test"
-          ></Typography>{" "}
-          <rp>(</rp>
-          <rt style={{ fontSize: "15px" }} id="test2"></rt>
-          <rp>)</rp>
-        </ruby>
-        <Typography style={{ fontSize: "30px" }} id="test3"></Typography>
-        <Typography style={{ fontSize: "30px" }} id="testKanji"></Typography>
-        <h1>test phrasing</h1>
-        <Typography style={{ fontSize: "30px" }} id="testExample"></Typography>
-        <Typography style={{ fontSize: "30px" }} id="testExample2"></Typography>
       </div>
     </div>
   );
 }
 
-export default Test;
+export default SearchQueries;
