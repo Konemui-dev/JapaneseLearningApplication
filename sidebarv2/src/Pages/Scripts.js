@@ -1,4 +1,12 @@
-import { Box, Fade, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Divider,
+  Fade,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -74,7 +82,8 @@ const style = {
   width: 400,
   bgcolor: "#051622",
   border: "1px solid #1BA098",
-
+  justifyContent: "center",
+  textAlign: "center",
   boxShadow: 24,
   p: 4,
 };
@@ -400,7 +409,8 @@ function Scripts() {
             <Button
               key={key}
               variant="outlined"
-              size="karge"
+              size="large"
+              sx={{ margin: 0.5 }}
               onClick={() => {
                 setSelectedValue(value.character);
                 setSelectedValueDetails(value.english);
@@ -424,7 +434,8 @@ function Scripts() {
             <Button
               key={key}
               variant="outlined"
-              size="karge"
+              size="large"
+              sx={{ margin: 0.5 }}
               onClick={() => {
                 setSelectedValue(value.character);
                 setSelectedValueDetails(value.english);
@@ -442,20 +453,64 @@ function Scripts() {
 
   const audioBtn = async () => {
     const audio = new Audio(selectedAudioFile);
-    audio.play()
+    audio.play();
   };
 
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <DrawerHeader />
+      <Typography variant="h3" textAlign="center">
+        Scripts
+      </Typography>
+      <Grid sx={{ flexGrow: 1 }} container spacing={1} justifyContent="center">
+        <Grid item xs={12} md={12} columns={{ xs: 4, sm: 8, md: 12 }}>
+          <Grid container justifyContent="center">
+            <Card
+              sx={{
+                minWidth: 250,
+                minHeight: 150,
+                margin: 5,
+                height: 700,
+                background: "#051622",
+                border: 1,
+                borderColor: "#1BA098",
+                overflow: "auto",
+              }}
+            >
+              <CardContent sx={{ marginTop: 2, color: "#1BA098" }}>
+                <Typography gutterBottom variant="h4">
+                  Hiragana Characters
+                </Typography>
 
-      <Typography paragraph>Scripts</Typography>
+                {hiraganaBtnMap}
+              </CardContent>
+            </Card>
 
-      {hiraganaBtnMap}
-      <Typography>katakana buttons</Typography>
-      {KatakanaBtnMap}
+            <Card
+              sx={{
+                minWidth: 250,
+                minHeight: 150,
+                margin: 5,
+                height: 700,
+                background: "#051622",
+                border: 1,
+                borderColor: "#1BA098",
+                overflow: "auto",
+              }}
+            >
+              <CardContent sx={{ marginTop: 2, color: "#1BA098" }}>
+                <Typography gutterBottom variant="h4">
+                  katakana Characters
+                </Typography>
+                {KatakanaBtnMap}
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Grid>
 
-      <Modal sx={{borderColor:" #1BA098", opacity: 1}}
+      <Modal
+        sx={{ borderColor: " #1BA098", opacity: 1 }}
         disableEnforceFocus
         open={selectedValue !== null && selectedValue !== "　"}
         closeAfterTransition
@@ -468,11 +523,26 @@ function Scripts() {
       >
         <Fade in={selectedValue !== null}>
           <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" sx={{ mt: 2 }}>
+            <Typography
+              gutterBottom
+              id="modal-modal-title"
+              variant="h4"
+              sx={{ mt: 1 }}
+            >
               {selectedValue}
-
-              <Button onClick={() => {audioBtn()}}>Listen</Button>
             </Typography>
+
+            <Button
+              sx={{ marginBottom: 2 }}
+              variant="outlined"
+              onClick={() => {
+                audioBtn();
+              }}
+            >
+              Listen
+            </Button>
+            <Divider />
+            <Typography variant="h5">english reading:</Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               {selectedValueDetails}
             </Typography>

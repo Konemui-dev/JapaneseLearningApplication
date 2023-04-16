@@ -13,7 +13,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 function SearchPage(){
     return(
-    <Grid component="main" sx={{flexGrow: 1, p:3}}>        <DrawerHeader /> 
+    <Grid component="main" sx={{flexGrow: 1, p:3}}>        
+    <DrawerHeader /> 
     <SearchQueries/>
   </Grid>
     );

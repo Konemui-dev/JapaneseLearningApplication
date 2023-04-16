@@ -23,11 +23,8 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Link from "@mui/material/Link";
 import ".///Navigation.css";
-import { useState } from "react";
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
@@ -123,7 +120,6 @@ function Navigation() {
     setOpen(false);
   };
 
-  //changeTheme ? "darkMode" : "ligtMode";
 
   return (
     <Box>
