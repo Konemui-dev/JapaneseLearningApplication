@@ -8,6 +8,7 @@ import { Box, } from '@mui/material';
 import Scripts from './Pages/Scripts';
 import SearchPage from './Pages/SearchPage';
 import './Pages/test.css';
+import GamePage from './Pages/GamePage';
 
 
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/JLPT" element={<JLPTPage/>}/>
         <Route path="/Scripts" element={<Scripts/>}/>
         <Route path="/Search" element={<SearchPage/>}/>
+        <Route path="/Games" element={<GamePage/>}/>
       </Routes>
 
       </Box>

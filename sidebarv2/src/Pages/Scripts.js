@@ -459,9 +459,6 @@ function Scripts() {
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <DrawerHeader />
-      <Typography variant="h3" textAlign="center">
-        Scripts
-      </Typography>
       <Grid sx={{ flexGrow: 1 }} container spacing={1} justifyContent="center">
         <Grid item xs={12} md={12} columns={{ xs: 4, sm: 8, md: 12 }}>
           <Grid container justifyContent="center">
