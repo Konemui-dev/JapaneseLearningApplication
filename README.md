@@ -3,7 +3,8 @@
   
 </h1>
 <p>
-  A web application utilizing API and a multitidue of other languages to develop an application for my final year individual project with the possibility of future development.
+ usess express for middleware and jisho's unofficial API for retrieving data to allow for testing and search requests,
+ VoiceVox is also used to enable audio for scripts page.
 </p>
 <h2>
   Hello there
