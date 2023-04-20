@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
-import { Box, Button, Card, CardContent, Divider, Grow, TextField, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, CircularProgress, Divider, Grow, Switch, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
+import CardQuestionComponent from './CardQuestionComponent';
 
 
 
@@ -16,28 +17,55 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   }));
 
 function JLPT() {
-  const [searchTerm, setSearchTerm] = useState();
   const [searchTermReturn, setSearchTermReturn] = useState([]);
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue, setSelectedValue] = useState("ま＊＊＊");
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
-const testword ="た＊＊"
+  const [devMode, setDevMode] = useState(false);
+  const [SearchWordBtn, setSearchWordBtn] = useState(true);
 
-const testwordArr = {option1: "た＊＊", option2:"あ＊＊"}
+
+const testwordArr = {option1: "た＊＊", option2:"あ＊＊", option3: "い＊＊", option4:"な＊****", option5: "う***", option6:"え***", option7:"お***"}
+
+const randomProperty = (testwordArr) => {
+  const keys = Object.keys(testwordArr);
+  if (keys.length > 0) {
+      const index = Math.floor(keys.length * Math.random());
+      const key = keys[index];
+      const value = testwordArr[key];
+      setSelectedValue(value);
+
+  }
+  return null;
+};
+
+const test = (e) =>{
+   if(e != undefined)
+   {
+    return e
+   }
+   else
+   {
+    e ="た＊＊＊"
+    return e
+   }
+}
+
   //questions fetch
-  const searchingForWord = () => {
-    fetch(`http://localhost:3001/searchForPhrase/${testwordArr.option2}`)
+  const searchingForWord = (e) => {
+     fetch(`http://localhost:3001/searchForPhrase/${e}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         return response.json();
-      }, setLoading(true))
+      }, setLoading(true),
+      setSearchWordBtn(false)
+      )
       .then((json) => {
-        console.log(json.data);
         setLoading(false);
+        setSearchWordBtn(true)
         setSearchTermReturn(json.data);
-        console.log(json.data[0].japanese[0].word);
         handleChange();
       })
       .catch((error) => {
@@ -52,91 +80,9 @@ const testwordArr = {option1: "た＊＊", option2:"あ＊＊"}
       setChecked((prev) => prev);
     }
   };
-let count = 1;
-
-const checkInput = (e) =>{
-  if(searchTerm !== searchTermReturn[0].senses[0].english_definitions[0].english_definitions  && searchTerm !== searchTermReturn[0].senses[0].english_definitions[1]){
-    console.log("incorrect");
-    
-  }
-  else
-  { 
-    console.log("correct");
-    count = count +1;
-    console.log(count);
-}
-
-}
-
-const checkInput2 = (e) =>
-{
-  if(Object.values(searchTermReturn[0].senses[0].english_definitions).indexOf(e) > -1)
-  {
-    console.log("here");
-  }
-  else
-  {
-    console.log("failed");
-  }
-}
-
-
-  const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
 
 
 
-  //card to hold question in each one content needs changing
-
-  const cards = (<Grid
-    container
-    spacing={{ xs: 2, md: 3 }}
-    columns={{ xs: 4, sm: 8, md: 12 }}
-  >
-    {searchTermReturn.map((value, key) => (
-      <Grow
-        key={key}
-        in={checked}
-        style={{ transformOrigin: "0 0 0" }}
-        {...(checked ? { timeout: 1000 } : {})}
-      >
-        <Grid item xs={3} sm={4} md={4} points="0,100 50,00, 100,100">
-          <Card
-            sx={{
-              minWidth: 250,
-              minHeight: 150,
-              height: 500,
-              background: "#051622",
-              border: 1,
-              borderColor: "#1BA098",
-              overflow: "auto",
-            }}
-          >
-            <CardContent sx={{ color: "#1BA098" }}>
-              {value.japanese[0].word}
-
-
-            {/**             {value.senses.map((value,key)=>(
-              <div key={key}>
-                {value.english_definitions + " "}
-              </div>
-            ))}*/}
-            {value.senses[0].english_definitions.map((value,key) =>(
-              <div key={key}>
-                {value}
-
-
-
-              </div>
-            ))}
-
-                       <TextField
-              id={value}
-              onChange={handleInputChange}
-              >
-
-              </TextField>
 
 {/**
  * 1 - seperate text inputs  --done
@@ -145,36 +91,73 @@ const checkInput2 = (e) =>
  * 4 - check if an array contains certain words for english response
 
  */}
+const Card = (
+  <Grid
+  container
+  spacing={{ xs: 2, md: 3 }}
+  columns={{ xs: 4, sm: 8, md: 12 }}
+>
+  {searchTermReturn.map((value, key) => (
+    <Grow
+      key={key}
+      in={checked}
+      style={{ transformOrigin: "0 0 0" }}
+      {...(checked ? { timeout: 1000 } : {})}
+    >
+      <Grid item xs={3} sm={4} md={4} points="0,100 50,00, 100,100">
+        <CardQuestionComponent props={value} dev={devMode}/>
+      </Grid>
+        </Grow>
+      ))}
+    </Grid>)
 
 
-                <Button disabled={!searchTerm} variant="outlined" onClick={() =>{setSelectedValue(searchTerm);console.log(searchTerm); checkInput2(searchTerm)}}> {/**checkInput */}
-      submit answer
-    </Button>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grow>
-    ))}
-  </Grid>)
 
-const [SearchWordBtn, setSearchWordBtn] = useState(true);
-
-
-
+  const handleChangeSwt = () =>{
+    setDevMode((prev) => !prev);
+  };
 
     return (
-        <Grid component="main" sx={{flexGrow: 1, p:3}}>        <DrawerHeader />
-                <Button variant="outlined" onClick={searchingForWord}>Click to start</Button>
-                  
-                <Box>
-              Answers correct: {count}
-              </Box>
+        <Grid component="main" sx={{flexGrow: 1, p:3}}
+        justifyContent="center"
+        container
+        >        <DrawerHeader />
                 
 
-            <Grid item xs={12} md={12} columns={{ xs: 4, sm: 8, md: 12 }}>
+             
+            <Grid        justifyContent="center" item xs={12} md={12} columns={{ xs: 4, sm: 8, md: 12 }}>
+              
             {/**coditional render of response Cards */}
+          <Grid
+                  justifyContent="center"
+                  container
+          >
+          <Button variant="outlined" onClick={() =>{randomProperty(testwordArr);searchingForWord( selectedValue)}}>Click to start</Button>
+                <Switch checked={devMode} onClick={handleChangeSwt}>test</Switch>
+                
+          </Grid>
+          <Grid
+                            justifyContent="center"
+                            container
+          >
+          {loading && (
+            <CircularProgress
+              sx={{
+                justifyContent:"center",
+                color: "#1BA098",
+                position: "relative",
+                marginTop: "5%",
+              }}
+              xs={10}
+            />
+          )}
+          </Grid>
+<br/>
 
-            {SearchWordBtn && cards}
+
+            {SearchWordBtn && Card}
+
+           
 
           </Grid>
 
