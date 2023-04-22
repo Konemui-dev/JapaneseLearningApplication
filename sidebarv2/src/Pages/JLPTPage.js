@@ -23,7 +23,7 @@ function JLPT() {
   const [checked, setChecked] = useState(false);
   const [devMode, setDevMode] = useState(false);
   const [SearchWordBtn, setSearchWordBtn] = useState(true);
-
+  const [correctCurr, setCorrectCurr] = useState(0);
 
 const testwordArr = {option1: "た＊＊", option2:"あ＊＊", option3: "い＊＊", option4:"な＊****", option5: "う***", option6:"え***", option7:"お***"}
 
@@ -39,17 +39,6 @@ const randomProperty = (testwordArr) => {
   return null;
 };
 
-const test = (e) =>{
-   if(e != undefined)
-   {
-    return e
-   }
-   else
-   {
-    e ="た＊＊＊"
-    return e
-   }
-}
 
   //questions fetch
   const searchingForWord = (e) => {
@@ -91,6 +80,16 @@ const test = (e) =>{
  * 4 - check if an array contains certain words for english response
 
  */}
+let i=0;
+const getAnswer = (e) =>{
+  if(e=== 1)
+  {
+    i++;
+    setCorrectCurr(i);
+    
+  }
+}
+
 const Card = (
   <Grid
   container
@@ -105,7 +104,7 @@ const Card = (
       {...(checked ? { timeout: 1000 } : {})}
     >
       <Grid item xs={3} sm={4} md={4} points="0,100 50,00, 100,100">
-        <CardQuestionComponent props={value} dev={devMode}/>
+        <CardQuestionComponent props={value} dev={devMode} anwsers={getAnswer} />
       </Grid>
         </Grow>
       ))}
@@ -132,14 +131,20 @@ const Card = (
                   justifyContent="center"
                   container
           >
-          <Button variant="outlined" onClick={() =>{randomProperty(testwordArr);searchingForWord( selectedValue)}}>Click to start</Button>
-                <Switch checked={devMode} onClick={handleChangeSwt}>test</Switch>
+          <Button variant="outlined" onClick={() =>{randomProperty(testwordArr);searchingForWord( selectedValue)}}>Click to start quiz</Button>
+                <Switch checked={devMode} onClick={handleChangeSwt}/>
                 
+          </Grid>
+          <Grid
+                                      justifyContent="center"
+                                      container>
+          <Typography variant="h5">correct questions: {correctCurr}</Typography>
           </Grid>
           <Grid
                             justifyContent="center"
                             container
           >
+            
           {loading && (
             <CircularProgress
               sx={{

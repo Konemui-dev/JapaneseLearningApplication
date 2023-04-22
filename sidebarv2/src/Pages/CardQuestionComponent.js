@@ -9,23 +9,36 @@
 
  */
 
-import { Box, Button, Card, CardContent, Divider, Grow, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
-import Grid from '@mui/material/Grid';
+import {  Button, Card, CardContent, TextField, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+
 
 function CardQuestionComponent(value) {
   const [searchTerm, setSearchTerm] = useState();
   const [AnswerR, setAnswerR] = useState(null);
   const [AnswerW, setAnswerW] = useState(null);
-    
+  const [correct, setCorrect] = useState(0);
+  const [disable, setDisable] = useState(true);
+  useEffect(()=>{
+    value.anwsers(correct);
+  })
+
+
+
+
   const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
+    let t = event.target.value.toLowerCase();
+    setSearchTerm(t);
+    setDisable(false);
   };
   const CheckQuestion =(e) =>{
       if(Object.values(value.props.senses[0].english_definitions).indexOf(e) > -1)
       {
         setAnswerR(true);
         setAnswerW(false);
+        setDisable(true);
+
+        setCorrect(correct+1)
       }
       else
       {
@@ -33,6 +46,7 @@ function CardQuestionComponent(value) {
         setAnswerW(true);
       }
   }
+
 
 
 
@@ -47,6 +61,9 @@ const statusW = (
     incorrect try again
   </Typography>
 )
+
+
+
 return (
 
             <Card
@@ -62,7 +79,7 @@ return (
             >
               <CardContent sx={{ color: "#1BA098", textAlign:'center' }}>
                 <Typography gutterBottom variant="h5">
-                  What is the english translation for?
+                  What is the english translation for ?
                 </Typography>
 
                 <Typography gutterBottom variant="h4">
@@ -99,7 +116,7 @@ return (
                 </TextField>
               </div>
               <br/>
-                <Button disabled={!searchTerm} variant="outlined" onClick={() =>{CheckQuestion(searchTerm); }}> {/**checkInput */}
+                <Button disabled={disable} variant="outlined" onClick={() =>{CheckQuestion(searchTerm); }}> {/**checkInput */}
         submit answer
       </Button>
                   {AnswerR&& statusR}

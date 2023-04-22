@@ -9,8 +9,7 @@ import Scripts from './Pages/Scripts';
 import SearchPage from './Pages/SearchPage';
 import './Pages/test.css';
 import GamePage from './Pages/GamePage';
-
-
+import ResourcesPage from './Pages/ResourcesPage';
 
 /**
  * MAIN FUNCTION
@@ -20,19 +19,16 @@ function App() {
 
   return (
     <Box sx={{ display: 'flex' }} >
-
       <Navigation/>
       <Routes>
-        <Route path="/" />
-        <Route path="/Home" element={<HomePage/>}/>
+        <Route path="/" element={<JLPTPage/>}/>
         <Route path="/JLPT" element={<JLPTPage/>}/>
         <Route path="/Scripts" element={<Scripts/>}/>
         <Route path="/Search" element={<SearchPage/>}/>
         <Route path="/Games" element={<GamePage/>}/>
+        <Route path="/Resources" element={<ResourcesPage/>}/>
       </Routes>
-
       </Box>
-
   );
 }
 

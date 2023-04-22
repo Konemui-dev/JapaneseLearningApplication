@@ -20,9 +20,11 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import SearchIcon from "@mui/icons-material/Search";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
+import AbcIcon from "@mui/icons-material/Abc";
+import InfoIcon from "@mui/icons-material/Info";
 import Link from "@mui/material/Link";
 import ".///Navigation.css";
 
@@ -98,13 +100,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const Pages = [
-  "JLPT",
-  "Scripts",
-  "Search",
-  "Resources",
-  "Games",
-];
+const Pages = ["JLPT", "Scripts", "Search", "Games", "Resources"];
 const Title = "t";
 
 function Navigation() {
@@ -119,7 +115,6 @@ function Navigation() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
 
   return (
     <Box>
@@ -154,13 +149,12 @@ function Navigation() {
         </DrawerHeader>
         <Divider className="AppBar" />
 
-        <List className="AppBar" >
+        <List className="AppBar">
           {Pages.map((text, index) => (
-            <Link href={text} key={index} >
-              <ListItem 
+            <Link href={text} key={index}>
+              <ListItem
                 className="AppBar"
                 key={text}
-                
                 disablePadding
                 sx={{
                   display: "block",
@@ -168,7 +162,7 @@ function Navigation() {
                   backgroundColor: "#051622",
                 }}
               >
-                <ListItemButton 
+                <ListItemButton
                   sx={{
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
@@ -183,8 +177,7 @@ function Navigation() {
                       color: "#1BA098",
                     }}
                   >
-                    {index % 5 === 1 ? <InboxIcon /> : <MailIcon />}
-                    {index[1] === <AssignmentIcon />}
+                    {t(index)}
                   </ListItemIcon>
                   <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
@@ -196,5 +189,19 @@ function Navigation() {
     </Box>
   );
 }
+
+const t = (e) => {
+  if (e === 0) {
+    return <AssignmentIcon />;
+  } else if (e === 1) {
+    return <AbcIcon />;
+  } else if (e === 2) {
+    return <SearchIcon />;
+  } else if (e === 3) {
+    return <SportsEsportsIcon />;
+  } else if (e === 4) {
+    return <InfoIcon />;
+  }
+};
 
 export default Navigation;

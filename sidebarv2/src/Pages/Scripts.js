@@ -497,7 +497,7 @@ function Scripts() {
             >
               <CardContent sx={{ marginTop: 2, color: "#1BA098" }}>
                 <Typography gutterBottom variant="h4">
-                  katakana Characters
+                  Katakana Characters
                 </Typography>
                 {KatakanaBtnMap}
               </CardContent>
