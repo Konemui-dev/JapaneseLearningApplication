@@ -11,12 +11,11 @@ import {
   ButtonGroup,
   Divider,
 } from "@mui/material";
-import LRUCache from "lru-cache"; //stretch goal.
-import React, {  useState } from "react";
+import React, { useState } from "react";
 
 function SearchQueries() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [Kanji, setKanji] = useState(""); 
+  const [Kanji, setKanji] = useState("");
   const [searchExamples, setSearchExamples] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchTermReturn, setSearchTermReturn] = useState([]);

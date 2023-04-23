@@ -1,12 +1,9 @@
 import { ButtonGroup, Card, CardContent, Typography } from "@mui/material";
-
 import { useState } from "react";
 import SubButtons from "./SubButtons";
 
 function CardGameJP(props) {
-  const [currentAnswer, SetCurrentAnswer] = useState("");
   const [AnswerR, setAnswerR] = useState(false);
-  const [disable, setDisable] = useState(false);
 
   console.log(props);
 

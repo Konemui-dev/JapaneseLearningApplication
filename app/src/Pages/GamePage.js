@@ -1,18 +1,7 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CircularProgress,
-  Divider,
-  Grow,
-  Switch,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Grow } from "@mui/material";
 import { useState } from "react";
 //sound imports
 import soundA from "../VoiceVox_audio/001_Male_あ.wav";
@@ -68,19 +57,14 @@ import soundRE from "../VoiceVox_audio/004_Male_れ.wav";
 import soundRO from "../VoiceVox_audio/005_Male_ろ.wav";
 
 import soundWA from "../VoiceVox_audio/001_Male_わ.wav";
-import soundWU from "../VoiceVox_audio/002_Male_ウ.wav";
 import soundWO from "../VoiceVox_audio/003_Male_を.wav";
 
 import soundNN from "../VoiceVox_audio/001_Male_ん.wav";
 
-import sound from "../VoiceVox_audio/001_Male_あ.wav";
-
 import CardGameJP from "./CardGameJP";
-import CardGameEN from "./CardGameEN";
 
 function GamePage() {
-    const [checked, setChecked] = useState(true);
-
+  const [checked, setChecked] = useState(true);
 
   const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
@@ -91,25 +75,15 @@ function GamePage() {
     ...theme.mixins.toolbar,
   }));
 
+  /**
+   * MOST LIKELY PAGE NEEDS RESTARTING USING DRAG AND DROP GAME INSTEAD!
+   * ISSUES WITH MATCHING GAME WERE the randomise position was causing changes every single click option
+   * and
+   *
+   * MULTICHOICE GAME INSTEAD
+   */
 
-/**
- * MOST LIKELY PAGE NEEDS RESTARTING USING DRAG AND DROP GAME INSTEAD!
- * ISSUES WITH MATCHING GAME WERE the randomise position was causing changes every single click option
- * and
- * 
- * MULTICHOICE GAME INSTEAD
- */
-
-
-
-
-
-
-
-
-
-
-//gen card data
+  //gen card data
   //Hiragana Scripts
   const aHiragana = { character: "あ", english: "a", audio: soundA };
   const iHiragana = { character: "い", english: "i", audio: soundI };
@@ -225,7 +199,6 @@ function GamePage() {
     roHiragana,
   ];
 
-
   const Hiragana = [
     baseCharHiragana,
     kCharHiragana,
@@ -237,56 +210,42 @@ function GamePage() {
     rCharHiragana,
   ];
 
-//rand cards
+  //rand cards
 
+  const randomizedParent = Hiragana.sort(() => Math.random() - 0.5);
 
-const randomizedParent = Hiragana.sort(() => Math.random() -0.5);
+  const randomized = baseCharHiragana.sort(() => Math.random() - 0.5);
 
-const randomized = baseCharHiragana.sort(() => Math.random() -0.5);
-
-
-const Card = (
-    <Grid  container
-
-    spacing={{ xs: 2, md: 3 }}
-    columns={{ xs: 4, sm: 6, md: 12 }}
-  >
-    {console.log("test")}
-    {randomizedParent.map((value,key) =>(
-            <Grow
+  const Card = (
+    <Grid
+      container
+      item
+      spacing={{ xs: 2, md: 3 }}
+      columns={{ xs: 4, sm: 6, md: 12 }}
+    >
+      {console.log("test")}
+      {randomizedParent.map((value, key) => (
+        <Grow
           key={key}
           in={checked}
           style={{ transformOrigin: "0 0 0" }}
           {...(checked ? { timeout: 1000 } : {})}
         >
-           <Grid  xs={3} sm={5} md={4} points="0,100 50,00, 100,100">
-          {value.map((value,key) =>(
-
-            <CardGameJP key={key} character={value.character} english={value.english} />
-
-
-          ))}
+          <Grid item xs={3} sm={5} md={4} points="0,100 50,00, 100,100">
+            {value.map((value, key) => (
+              <CardGameJP
+                key={key}
+                character={value.character}
+                english={value.english}
+              />
+            ))}
           </Grid>
-          
-            </Grow>
-
-    ))}
-
-
-
-
-
- 
-
+        </Grow>
+      ))}
     </Grid>
-)
+  );
 
-
-
-
-
-
-return (
+  return (
     <Grid
       component="main"
       sx={{ flexGrow: 1, p: 3 }}
@@ -295,15 +254,13 @@ return (
     >
       <DrawerHeader />
       <Grid
-        justifyContent="center"
         item
+        justifyContent="center"
         xs={12}
         md={12}
         columns={{ xs: 4, sm: 8, md: 12 }}
-        sx={{marginLeft:5}}
+        sx={{ marginLeft: 5 }}
       >
-        
-        
         {Card}
       </Grid>
     </Grid>
