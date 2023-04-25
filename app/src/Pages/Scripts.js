@@ -101,7 +101,6 @@ function Scripts() {
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedValueDetails, setSelectedValueDetails] = useState(null);
   const [selectedAudioFile, setSelectedAudioFile] = useState(null);
-  const [selectedVlaueGIF, setSelectedValueGIF] = useState(null); //stretch goal.
 
   //Hiragana Scripts
   const aHiragana = { character: "あ", english: "a", audio: soundA };

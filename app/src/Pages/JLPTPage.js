@@ -2,9 +2,11 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import {
+  Box,
   Button,
   CircularProgress,
   Grow,
+  Modal,
   Switch,
   Typography,
 } from "@mui/material";
@@ -91,11 +93,12 @@ function JLPT() {
 
  */
   }
-  let i = 0;
+  let [startingNum, setStartingNum] = useState(0)
+
   const getAnswer = (e) => {
     if (e === 1) {
-      i++;
-      setCorrectCurr(i);
+      startingNum++;
+      setCorrectCurr(startingNum);
     }
   };
 
@@ -128,6 +131,21 @@ function JLPT() {
     setDevMode((prev) => !prev);
   };
 
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "#051622",
+    border: "1px solid #1BA098",
+    justifyContent: "center",
+    textAlign: "center",
+    boxShadow: 24,
+    p: 4,
+  };
+
   return (
     <Grid
       component="main"
@@ -151,6 +169,8 @@ function JLPT() {
             onClick={() => {
               randomProperty(testwordArr);
               searchingForWord(selectedValue);
+              setStartingNum(0);
+
             }}
           >
             Click to start quiz
@@ -174,6 +194,24 @@ function JLPT() {
           )}
         </Grid>
         <br />
+
+        <Modal
+        sx={{ borderColor: " #1BA098", opacity: 1 }}
+        disableEnforceFocus
+        open={correctCurr === 10} //blank character is using Japanese keyboard do not change to the english version as it breaks
+        onClose={() =>{window.location.reload(true);setCorrectCurr(0);}}
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
+      >
+        <Box
+        sx={style}>
+          <Typography>close this modal to reload the page</Typography>
+           </Box>
+</Modal>
+
 
         {SearchWordBtn && Card}
       </Grid>

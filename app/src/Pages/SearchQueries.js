@@ -156,7 +156,7 @@ function SearchQueries() {
       .then((json) => {
         setLoading(false);
         console.log(json);
-        if (json.found == false) {
+        if (json.found === false) {
           console.error("this search query cannot be completed");
         } else {
           setKanjiReturn([json]);
@@ -275,11 +275,20 @@ function SearchQueries() {
                 radicals
               </Typography>
               {value.radical.symbol}
-              {value.radical.forms.map((value, key) => (
-                <div key={key}>
-                  <Typography>{value}</Typography>
-                </div>
-              ))}
+
+              {() => {
+                if (value.radical.form === undefined) {
+                  //no other option due to data being scraped not existing sometimes
+                  console.log("no value");
+                } else {
+                  value.radical.forms.map((value, key) => (
+                    <div key={key}>
+                      <Typography>{value}</Typography>
+                    </div>
+                  ));
+                }
+              }}
+
               <Typography>{value.radical.meaning}</Typography>
             </Card>
           ))}

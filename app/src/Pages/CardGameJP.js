@@ -1,20 +1,20 @@
-import { ButtonGroup, Card, CardContent, Typography } from "@mui/material";
-import { useState } from "react";
+import { Button, ButtonGroup, Card, CardContent, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import SubButtons from "./SubButtons";
 
 function CardGameJP(props) {
   const [AnswerR, setAnswerR] = useState(false);
 
-  console.log(props);
+
 
   /**
    * SUB BUTTON ALLOW FOR RETURN IF ANSWER IS TRUE IF NOT DONT ALLOW PASS ANSWER DOWN TOO TO ALLOWS FOR THIS
    */
 
   const correctOpt = props.english;
-
   const getAnwser = () => {
     setAnswerR(true);
+    
   };
 
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -32,19 +32,33 @@ function CardGameJP(props) {
 
   const randomArrOpt = optionsArr.sort((a, b) => 0.5 - Math.random());
 
+
+  const randomButtons = (
+    <ButtonGroup>
+    {randomArrOpt.map((value, key) => (
+      <Button
+      key={key}
+      english={props.english}
+      >{value}</Button>
+    ))}    </ButtonGroup>
+  )
+
+
   const test = (
     <ButtonGroup>
-      {randomArrOpt.map((value, key) => (
-        <SubButtons
-          key={key}
-          props={value}
-          english={props.english}
-          answer={getAnwser}
-        />
-      ))}
+        {randomArrOpt.map((value, key) => (
+    <SubButtons
+      key={key}
+      props={value}
+      english={props.english}
+      answer={getAnwser}
+    />
+  ))}
+
     </ButtonGroup>
   );
   const correct = <Typography>Correct</Typography>;
+
 
   return (
     <Card
@@ -61,9 +75,9 @@ function CardGameJP(props) {
       }}
     >
       <CardContent sx={{ color: "#1BA098", textAlign: "center" }}>
-        <Typography id="question" variant="h4" value={props.character}>
+      {!AnswerR &&       <Typography id="question" variant="h4" value={props.character}>
           {props.character}
-        </Typography>
+        </Typography>}
 
         {!AnswerR && test}
         {AnswerR && correct}

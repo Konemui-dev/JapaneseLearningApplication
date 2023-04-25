@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
-import { Grow } from "@mui/material";
+import {  Grow } from "@mui/material";
 import { useState } from "react";
 //sound imports
 import soundA from "../VoiceVox_audio/001_Male_あ.wav";
@@ -46,9 +46,6 @@ import soundMU from "../VoiceVox_audio/003_Male_む.wav";
 import soundME from "../VoiceVox_audio/004_Male_め.wav";
 import soundMO from "../VoiceVox_audio/005_Male_も.wav";
 
-import soundYA from "../VoiceVox_audio/001_Male_や.wav";
-import soundYU from "../VoiceVox_audio/002_Male_ゆ.wav";
-import soundYO from "../VoiceVox_audio/003_Male_よ.wav";
 
 import soundRA from "../VoiceVox_audio/001_Male_ら.wav";
 import soundRI from "../VoiceVox_audio/002_Male_り.wav";
@@ -56,10 +53,6 @@ import soundRU from "../VoiceVox_audio/003_Male_る.wav";
 import soundRE from "../VoiceVox_audio/004_Male_れ.wav";
 import soundRO from "../VoiceVox_audio/005_Male_ろ.wav";
 
-import soundWA from "../VoiceVox_audio/001_Male_わ.wav";
-import soundWO from "../VoiceVox_audio/003_Male_を.wav";
-
-import soundNN from "../VoiceVox_audio/001_Male_ん.wav";
 
 import CardGameJP from "./CardGameJP";
 
@@ -127,9 +120,6 @@ function GamePage() {
   const meHiragana = { character: "め", english: "me", audio: soundME };
   const moHiragana = { character: "も", english: "mo", audio: soundMO };
 
-  const yaHiragana = { character: "や", english: "ya", audio: soundYA };
-  const yuHiragana = { character: "ゆ", english: "yu", audio: soundYU };
-  const yoHiragana = { character: "よ", english: "yo", audio: soundYO };
 
   const raHiragana = { character: "ら", english: "ra", audio: soundRA };
   const riHiragana = { character: "り", english: "ri", audio: soundRI };
@@ -137,9 +127,7 @@ function GamePage() {
   const reHiragana = { character: "れ", english: "re", audio: soundRE };
   const roHiragana = { character: "ろ", english: "ro", audio: soundRO };
 
-  const waHiragana = { character: "わ", english: "wa", audio: soundWA };
-  const woHiragana = { character: "を", english: "wo", audio: soundWO };
-  const nHiragana = { character: "ん", english: "n", audio: soundNN };
+
 
   const baseCharHiragana = [
     aHiragana,
@@ -210,21 +198,24 @@ function GamePage() {
     rCharHiragana,
   ];
 
-  //rand cards
 
-  const randomizedParent = Hiragana.sort(() => Math.random() - 0.5);
 
-  const randomized = baseCharHiragana.sort(() => Math.random() - 0.5);
 
-  const Card = (
+//  rand cards
+
+ //const randomizedParent = Hiragana.sort(() => Math.random() - 0.5);
+
+
+
+
+  const Card1 = (
     <Grid
       container
       item
       spacing={{ xs: 2, md: 3 }}
       columns={{ xs: 4, sm: 6, md: 12 }}
     >
-      {console.log("test")}
-      {randomizedParent.map((value, key) => (
+      {Hiragana.map((value, key) => (
         <Grow
           key={key}
           in={checked}
@@ -245,6 +236,9 @@ function GamePage() {
     </Grid>
   );
 
+
+
+
   return (
     <Grid
       component="main"
@@ -261,7 +255,8 @@ function GamePage() {
         columns={{ xs: 4, sm: 8, md: 12 }}
         sx={{ marginLeft: 5 }}
       >
-        {Card}
+
+{Card1}
       </Grid>
     </Grid>
   );

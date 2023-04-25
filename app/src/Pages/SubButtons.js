@@ -5,11 +5,9 @@ function SubButtons(props) {
   const [currentAnswer, SetCurrentAnswer] = useState(props.english);
   const [disable, setDisable] = useState(false);
 
-  console.log(props);
 
   const settingOrder = (e) => {
-    if (currentAnswer == e) {
-      console.log("test");
+    if (currentAnswer === e) {
       setDisable(true);
       props.answer(true);
     }
